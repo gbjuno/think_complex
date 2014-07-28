@@ -16,10 +16,50 @@ class Graph(dict):
 
     def get_edge(self, v, w):
         try:
-            if self[v][w] == self[w][v]:
+            if self[v][w]:
                 return self[v][w]
         except KeyError:
             return None
+
+    def remove_edge(self, e):
+        v, w = e
+        if self.get_edge(v, w):
+            del self[v][w]
+            del self[w][v]
+        else:
+            pass
+
+    def vertices(self):
+        vs = []
+        for i in self:
+            vs.append(i)
+        return sorted(vs)
+            
+    def edges(self):
+        es = []
+        for i in self:
+            for j in self[i]:
+                if not self[i][j] in es:
+                    es.append(self[i][j])
+        return sorted(es)
+
+    def out_vertices(self, v):
+        v_adjacent = []
+        for i in self[v]:
+            v_adjacent.append(i)
+        return v_adjacent
+
+    def out_edges(self, v):
+        e_adjacent = []
+        for i in self[v]:
+            e_adjacent.append(self[v][i])
+        return e_adjacent
+    
+    def add_all_edges(self):
+        for i in self.vertices():
+            for j in self.vertices():
+                if i != j: 
+                    self.add_edge(Edge(j, i))
 
 class Vertex(object):
     def __init__(self, label=''):
