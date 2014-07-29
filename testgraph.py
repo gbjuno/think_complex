@@ -93,7 +93,6 @@ class TestGraph(unittest.TestCase):
         if sorted(e1_adjacent) != sorted([self.es[4],self.es[5]]):
             print "e1_adjacent = %" % str(e1_adjacent)
             self.fail('test failed')
-        print e1_adjacent
 
     def test_add_all_edges(self):
         """
@@ -101,22 +100,54 @@ class TestGraph(unittest.TestCase):
         """
         for i in self.es:
             self.g.remove_edge(i)
-        print self.g
-        print '---------------------------------------------------------------------'
+        #print '---------------------------------------------------------------------'
         self.g.add_all_edges()
-        print "self.g.edges() = \n%s" % str(self.g.edges())
-        print '---------------------------------------------------------------------'
+        #print "self.g.edges() = \n%s" % str(self.g.edges())
+        #print '---------------------------------------------------------------------'
         
         es = []
         for i in range(5):
             for j in range(i+1,6):
                 es.append(graph.Edge(self.vs[i],self.vs[j]))
-        print "es = \n%s" % str(es)
-        print '---------------------------------------------------------------------'
+        #print "es = \n%s" % str(es)
+        #print '---------------------------------------------------------------------'
         if (sorted(self.g.vertices()) != sorted(self.vs)) or (sorted(self.g.edges()) != sorted(es)):
             print self.g.vertices()
             print self.g.edges()
             self.fail('test failed')
 
+    def test_add_regular_edges(self):
+        """
+        测试：节点数为n，度数为m，那么m必须少于n！另外节点数X度数/2=边数，边数必须为整数，因此注意在节点数为奇数时，度数必须为偶数才能够实现正则图。
+        测试用例1：
+        节点为4，度数为1:结果应为成功
+        节点为4，度数为2:结果应为成功
+        节点为4，度数为3:结果应为成功
+        节点为4，度数为4:结果应为成功
+        
+        节点数为5，度数为1:结果为失败
+        节点数为5，度数为2:结果为成功
+        节点数为5，度数为3:结果为失败
+        节点数为5，度数为4:结果为成功
+        节点数为5，度数为5:结果为失败
+        """
+        vs1 = [graph.Vertex(i) for i in range(4)]
+        result1 = []
+        for i in range(1, 5):
+            g = graph.Graph(vs1)
+            print g
+            result1.append(g.add_regular_edge(i))
+        if result1 != [true, true, true, true]:
+            self.fail('test failed')
+
+        vs2 = [graph.Vertex(i) for i in range(5)]
+        result2 = []
+        for i in range(1, 6):
+            g = graph.Graph(vs2)
+            print g
+            result2.append(g.add_regular_edge(i))
+        if result2 != [false, true, false, true, false]:
+            self.fail('test failed')
+                
 if __name__ == '__main__':
     unittest.main()

@@ -61,6 +61,23 @@ class Graph(dict):
                 if i != j: 
                     self.add_edge(Edge(j, i))
 
+    def add_regular_edges(self, degree):
+        if int(degree) != degree:
+            print "degree is not int"
+            return false
+        if len(self) < degree:
+            print "degree > number of vertices"
+            return false
+        else if divmod(len(self)*degree, 2)[1] == 1:
+            print "the number of vertices is odd, the degree should be even ,but degree is %s" % degree
+            return false
+        else:
+            vs = self.vertices()
+        """
+
+        """
+            return true
+
 class Vertex(object):
     def __init__(self, label=''):
         self.label = label
